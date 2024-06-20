@@ -1,0 +1,80 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  height: 100vh;
+  overflow: hidden; /* Prevent body scrolling */
+}
+
+header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 1em 0;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  margin-left: 200px; /* Offset by sidebar width */
+}
+
+
+main {
+  flex: 1;
+  margin-left: 200px; /* Same width as the sidebar */
+  padding-top: 60px; /* Adjust to match header height */
+  overflow-y: auto; /* Enable scrolling for main content */
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.content {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.soil-sensor-container, .Water-sensor-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 2em;
+  flex-wrap: wrap;
+}
+
+.sensor-data, .Water-sensor-data {
+  text-align: center;
+  padding: 1em;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  flex: 1;
+  margin: 1em;
+  max-width: 30%;
+}
+
+#moisture-level-1, #moisture-level-2, #moisture-level-3, #water-sensor {
+  font-size: 2em;
+  margin-top: 0.5em;
+  color: #333;
+}
+
+canvas {
+  width: 400px;
+  height: 200px;
+}
+
+footer {
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 1em 0;
+  width: calc(100% - 200px); /* Adjust to match the sidebar width */
+  margin-left: 200px; /* Adjust to match the sidebar width */
+  position: fixed;
+  bottom: 0;
+}

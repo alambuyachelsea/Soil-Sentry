@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soil Sentry</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Soil Sentry</h1>
+  </header>
+  <main>
+    <div class="soil-sensor-container" id="sensor1">
+      <div class="sensor-data">
+        <h2>Sensor 1</h2>
+        <div id="moisture-level-1">Loading...</div>
+        <canvas id="sensor1Chart" height="50"></canvas>
+      </div>
+    </div>
+    <div class="soil-sensor-container" id="sensor2">
+      <div class="sensor-data">
+        <h2>Sensor 2</h2>
+        <div id="moisture-level-2">Loading...</div>
+        <canvas id="sensor2Chart" height="50"></canvas>
+      </div>
+    </div>
+    <div class="soil-sensor-container" id="sensor3">
+      <div class="sensor-data">
+        <h2>Sensor 3</h2>
+        <div id="moisture-level-3">Loading...</div>
+        <canvas id="sensor3Chart" height="50"></canvas>
+      </div>
+    </div>
+    <div class="Water-sensor-container" id="reservoir">
+      <div class="Water-sensor-data">
+        <h2>Reservoir Level</h2>
+        <div id="water-sensor">Loading...</div>
+        <canvas id="waterLevelChart" height="50"></canvas>
+      </div>
+    </div>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2024 Soil Moisture Monitor</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+
+</html>
