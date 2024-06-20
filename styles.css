@@ -3,58 +3,99 @@ body, html {
   margin: 0;
 }
 
-.top {
+.main-top {
   height: 10%;
   background-color: lightblue;
 }
 
-.bottom {
+.main-bottom {
   height: 90%;
   display: flex;
 }
 
-.left {
+.reservoir {
   flex: 0 0 20%;
   background-color: lightcoral;
 }
 
-.right {
+.plant-graph {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.right-top {
+.plants{
   display: flex;
   flex-direction: row;
   height: 50%; /* Equal height to right-bottom */
 }
 
-.right-top-section {
+.plant {
+  height: 100%;
+  object-fit: contain;
+}
+
+.aloe-section {
   flex: 1;
   background-color: lightgoldenrodyellow;
   border: 1px solid black;
   margin: 5px;
 }
 
-.right-bottom {
+.basil-section {
+  flex: 1;
+  background-color: lightcyan;
+  border: 1px solid black;
+  margin: 5px;
+}
+
+.beginoa-section {
+  flex: 1;
+  background-color: lightgray;
+  border: 1px solid black;
+  margin: 5px;
+}
+
+.row {
+  border: 1px solid black;
+}
+
+.row1 {
+  height: 15%;
+  background-color: lightgreen;
+}
+
+.row2 {
+  height: 55%;
+  background-color: lightblue;
+}
+
+.row3 {
+  height: 15%;
+  background-color: lightcoral;
+}
+
+.row4 {
+  height: 15%;
+  background-color: lightpink;
+}
+
+.graph {
   display: flex;
   flex-direction: row;
   height: 50%; /* Equal height to right-top */
 }
 
-.right-bottom-left {
+.graph-left {
   flex: 8; /* Takes up 80% of the width */
   background-color: lightgreen;
   border: 1px solid black;
   margin-right: 5px;
 }
 
-.right-bottom-right {
+.graph-right {
   flex: 2; /* Takes up 20% of the width */
   background-color: lightpink;
   border: 1px solid black;
   margin-left: 5px;
 }
-
-
