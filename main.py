@@ -1,14 +1,28 @@
 import network
 import usocket as socket
-from machine import Pin
+from plant_profile import PlantProfile
 
 # Wi-Fi credentials
-SSID = "Chelsea's S23 Ultra"
-PASSWORD = 'forfssake'
+SSID = 'YourSSID'
+PASSWORD = 'YourPassword'
 
-# LED pin
-# Change Pin(0) to the GPIO pin where your LED is connected
-led_pin = Pin(0, Pin.OUT)
+# Connect to Wi-Fi
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect(SSID, PASSWORD)
+
+while not wlan.isconnected():
+    pass
+
+print('Connected to Wi-Fi')
+print('IP address:', wlan.ifconfig()[0])
+
+# Initialize a sample plant profile with the pump connected 
+# to GPIO pin 15 and sensor to ADC pin 26
+basil = PlantProfile(name="Fern", water_needs=2, pump_pin=6, sensor_pin=20)
+aloe = PlantProfile(name="Aloe", water_needs=1, pump_pin=7, sensor_pin=19)
+begonia = PlantProfile(name="Begonia", water_needs=3, pump_pin=8,
+                       sensor_pin=18)
 
 # Function to handle incoming client connections
 
@@ -23,13 +37,21 @@ def handle_client(client_socket):
     request_line = request_str.split('\n')[0]
     request_file = request_line.split(' ')[1]
 
-    # Determine which file to serve based on the request
     if request_file == '/':
         request_file = '/index.html'
     elif request_file == '/script.js':
         request_file = '/script.js'
     elif request_file == '/styles.css':
         request_file = '/styles.css'
+    elif request_file == '/plant_info':
+        response = f'{{"name": "{plant.get_name()}", "water_needs": {plant.get_water_needs(
+        )}, "current_water_level": {plant.get_current_water_level()}}}'
+        client_socket.send("HTTP/1.1 200 OK\n")
+        client_socket.send("Content-Type: application/json\n")
+        client_socket.send("Connection: close\n\n")
+        client_socket.sendall(response)
+        client_socket.close()
+        return
 
     try:
         # remove the leading '/' from the filename
@@ -52,25 +74,12 @@ def handle_client(client_socket):
         client_socket.send("HTTP/1.1 404 Not Found\n")
         client_socket.send("Connection: close\n\n")
 
-    # Check if request is for /led endpoint
-    if b"GET /led?state=on" in request:
-        led_pin.value(1)  # Turn LED on
-    elif b"GET /led?state=off" in request:
-        led_pin.value(0)  # Turn LED off
+    # Handle plant profile actions
+    if b"GET /water" in request:
+        plant.water_plant(100)  # Water the plant by 100ml
 
     client_socket.close()
 
-
-# Connect to Wi-Fi
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-wlan.connect(SSID, PASSWORD)
-
-while not wlan.isconnected():
-    pass
-
-print('Connected to Wi-Fi')
-print('IP address:', wlan.ifconfig())
 
 # Create a TCP/IP socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
