@@ -1,10 +1,13 @@
 import network
 import usocket as socket
+import json
 from plant_profile import PlantProfile
+import time
+from soil_sensor import SoilSensor
 
 # Wi-Fi credentials
-SSID = 'YourSSID'
-PASSWORD = 'YourPassword'
+SSID = "Chelsea's S23 Ultra"
+PASSWORD = 'forfssake'
 
 # Connect to Wi-Fi
 wlan = network.WLAN(network.STA_IF)
@@ -17,69 +20,74 @@ while not wlan.isconnected():
 print('Connected to Wi-Fi')
 print('IP address:', wlan.ifconfig()[0])
 
-# Initialize a sample plant profile with the pump connected 
-# to GPIO pin 15 and sensor to ADC pin 26
-basil = PlantProfile(name="Fern", water_needs=2, pump_pin=6, sensor_pin=20)
-aloe = PlantProfile(name="Aloe", water_needs=1, pump_pin=7, sensor_pin=19)
-begonia = PlantProfile(name="Begonia", water_needs=3, pump_pin=8,
-                       sensor_pin=18)
+# Initialize plant profiles and add them to a global list
+plants = [
+    PlantProfile(name="Basil", water_needs=2, pump_pin=6, sensor_pin=28, img_source='https://i.imgur.com/w8xuEfx.gif'),
+    PlantProfile(name="Aloe", water_needs=1, pump_pin=7, sensor_pin=27, img_source='https://i.imgur.com/e9EikGU.gif'),
+    PlantProfile(name="Begonia", water_needs=3, pump_pin=8, sensor_pin=26, img_source='https://i.imgur.com/phBFJkd.gif')
+]
+
 
 # Function to handle incoming client connections
-
-
 def handle_client(client_socket):
-    request = client_socket.recv(1024)
-    request_str = request.decode('utf-8')
+    request = client_socket.recv(1024).decode('utf-8')
     print("Request:")
-    print(request_str)
+    print(request)
 
-    # Parse the first line of the HTTP request
-    request_line = request_str.split('\n')[0]
-    request_file = request_line.split(' ')[1]
+    # Split the request to get the HTTP method and path
+    request_lines = request.split('\n')
+    request_line = request_lines[0].strip()
+    method, path, _ = request_line.split(' ')
 
-    if request_file == '/':
-        request_file = '/index.html'
-    elif request_file == '/script.js':
-        request_file = '/script.js'
-    elif request_file == '/styles.css':
-        request_file = '/styles.css'
-    elif request_file == '/plant_info':
-        response = f'{{"name": "{plant.get_name()}", "water_needs": {plant.get_water_needs(
-        )}, "current_water_level": {plant.get_current_water_level()}}}'
-        client_socket.send("HTTP/1.1 200 OK\n")
-        client_socket.send("Content-Type: application/json\n")
-        client_socket.send("Connection: close\n\n")
-        client_socket.sendall(response)
-        client_socket.close()
-        return
+    # If the path is '/', serve index.html
+    if path == '/':
+        path = '/index.html'
 
+    # Handle different request paths
     try:
-        # remove the leading '/' from the filename
-        with open(request_file[1:], 'r') as f:
-            response = f.read()
-        if request_file.endswith('.html'):
-            content_type = 'text/html'
-        elif request_file.endswith('.js'):
-            content_type = 'application/javascript'
-        elif request_file.endswith('.css'):
-            content_type = 'text/css'
-        else:
-            content_type = 'text/plain'
+        if path.endswith('.html') or path.endswith('.js') or path.endswith('.css'):
+            with open(path[1:], 'r') as f:
+                response = f.read()
+            if path.endswith('.html'):
+                content_type = 'text/html'
+            elif path.endswith('.js'):
+                content_type = 'application/javascript'
+            elif path.endswith('.css'):
+                content_type = 'text/css'
+            else:
+                content_type = 'text/plain'
 
-        client_socket.send("HTTP/1.1 200 OK\n")
-        client_socket.send("Content-Type: {}\n".format(content_type))
-        client_socket.send("Connection: close\n\n")
-        client_socket.sendall(response)
+            client_socket.send("HTTP/1.1 200 OK\n")
+            client_socket.send("Content-Type: {}\n".format(content_type))
+            client_socket.send("Connection: close\n\n")
+            client_socket.sendall(response.encode('utf-8'))
+
+        elif path == '/plants':
+            response_data = [
+                {
+                    "name": plant.get_name(),
+                    "water_needs": plant.get_water_needs(),
+                    "current_water_level": plant.get_current_water_level(),
+                    "img_source": plant.img_source  # Include img_source in response
+                }
+                for plant in plants
+            ]
+            response = json.dumps(response_data)
+
+            client_socket.send("HTTP/1.1 200 OK\n")
+            client_socket.send("Content-Type: application/json\n")
+            client_socket.send("Connection: close\n\n")
+            client_socket.sendall(response.encode('utf-8'))
+
+        else:
+            client_socket.send("HTTP/1.1 404 Not Found\n")
+            client_socket.send("Connection: close\n\n")
+
     except OSError:
         client_socket.send("HTTP/1.1 404 Not Found\n")
         client_socket.send("Connection: close\n\n")
 
-    # Handle plant profile actions
-    if b"GET /water" in request:
-        plant.water_plant(100)  # Water the plant by 100ml
-
     client_socket.close()
-
 
 # Create a TCP/IP socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

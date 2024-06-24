@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Two Divs Layout</title>
+  <title>Soil Sentry Dashboard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -15,40 +15,19 @@
   <div class="main-bottom">
     <div class="reservoir">
       <div class="reservoir-level">
-        <h1>Reservoir Level: 90%</h1>
+        <h1 id="reservoirLevel">Reservoir Level: 90%</h1>
       </div>
-      <div class="reservoir-gi">
-        <IMG src="assets/90.gif" alt="Reservoir" class="reservoir-image">
+      <div class="reservoir-gif">
+        <img src="https://i.imgur.com/ZDuG0yg.gif" alt="Reservoir alt" class="reservoir-image">
       </div>
-
     </div>
     <div class="plant-graph">
-      <div class="plants">
-        <div class="aloe-section">
-          <div class="row row1">Aloe</div>
-          <div class="row row2">
-            <IMG src="assets/aloe_plant.gif" alt="Aloe Plant" class="aloe-gif  plant">
-          </div>
-          <div class="row row3">Section 1 - Water Needs</div>
-          <div class="row row4">Section 1 - Water Level</div>
-        </div>
-        <div class="basil-section">
-          <div class="row row1">Section 2 - Name</div>
-          <div class="row row2">Section 2 - GIF</div>
-          <div class="row row3">Section 2 - Water Needs</div>
-          <div class="row row4">Section 2 - Water Level</div>
-        </div>
-        <div class="beginoa-section">
-          <div class="row row1">Section 3 - Name</div>
-          <div class="row row2">Section 3 - GIF</div>
-          <div class="row row3">Section 3 - Water Needs</div>
-          <div class="row row4">Section 3 - Water Level</div>
-        </div>
+      <div class="plants" id="plantContainer">
+        <!-- Plant divs will be dynamically inserted here -->
       </div>
       <div class="graph">
         <div class="graph-left">
           Right Bottom Left (80%)
-
         </div>
         <div class="graph-right">
           Right Bottom Right (20%)
@@ -56,6 +35,8 @@
       </div>
     </div>
   </div>
+
+  <script src="script.js"></script>
 </body>
 
 </html>

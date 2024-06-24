@@ -1,101 +1,96 @@
-body, html {
-  height: 100%;
-  margin: 0;
+body,
+html {
+    height: 100%;
+    margin: 0;
 }
 
 .main-top {
-  height: 10%;
-  background-color: lightblue;
+    height: 10%;
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main-bottom {
-  height: 90%;
-  display: flex;
+    height: 90%;
+    display: flex;
+    flex-direction: row; /* Ensure main-bottom is a column layout */
 }
 
 .reservoir {
-  flex: 0 0 20%;
-  background-color: lightcoral;
+    flex: 0 0 20%;
+    background-color: lightcoral;
+    padding: 10px;
 }
 
 .plant-graph {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }
 
-.plants{
-  display: flex;
-  flex-direction: row;
-  height: 50%; /* Equal height to right-bottom */
+.plants {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Allow plants to wrap to new line */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    height: 100%; /* Occupy full height of main-bottom */
 }
 
-.plant {
-  height: 100%;
-  object-fit: contain;
+.plant-section {
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    flex: 0 0 calc(25% - 20px); /* Each plant section takes up 25% of the container width */
 }
 
-.aloe-section {
-  flex: 1;
-  background-color: lightgoldenrodyellow;
-  border: 1px solid black;
-  margin: 5px;
-}
-
-.basil-section {
-  flex: 1;
-  background-color: lightcyan;
-  border: 1px solid black;
-  margin: 5px;
-}
-
-.beginoa-section {
-  flex: 1;
-  background-color: lightgray;
-  border: 1px solid black;
-  margin: 5px;
+.plant-gif {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Center the image horizontally */
 }
 
 .row {
-  border: 1px solid black;
+    border: 1px solid black;
+    text-align: center;
+    margin: 5px 0;
+    padding: 10px;
 }
 
 .row1 {
-  height: 15%;
-  background-color: lightgreen;
+    background-color: lightgreen;
 }
 
 .row2 {
-  height: 55%;
-  background-color: lightblue;
+    background-color: lightblue;
 }
 
-.row3 {
-  height: 15%;
-  background-color: lightcoral;
-}
-
+.row3,
 .row4 {
-  height: 15%;
-  background-color: lightpink;
+    background-color: lightcoral;
 }
 
 .graph {
-  display: flex;
-  flex-direction: row;
-  height: 50%; /* Equal height to right-top */
+    display: flex;
+    flex-direction: row;
+    height: 50%; /* Equal height to right-top */
 }
 
 .graph-left {
-  flex: 8; /* Takes up 80% of the width */
-  background-color: lightgreen;
-  border: 1px solid black;
-  margin-right: 5px;
+    flex: 8; /* Takes up 80% of the width */
+    background-color: lightgreen;
+    border: 1px solid black;
+    margin-right: 5px;
 }
 
 .graph-right {
-  flex: 2; /* Takes up 20% of the width */
-  background-color: lightpink;
-  border: 1px solid black;
-  margin-left: 5px;
+    flex: 2; /* Takes up 20% of the width */
+    background-color: lightpink;
+    border: 1px solid black;
+    margin-left: 5px;
 }
