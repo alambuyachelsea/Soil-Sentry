@@ -39,3 +39,6 @@ These items can be purchased online at stores that sells electronic components, 
 
 ## IDE
 I developed this on a computer running windows 11. I decided to use Thonny because it is specifically designed for beginners in Python programming, offering an intuitive interface, easy debugging tools, and seamless integration with MicroPython for microcontroller projects. Installation instruction can be found on the [Thonny website](https://thonny.org/)
+- How the code is uploaded (workflow) ??
+
+  
