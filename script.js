@@ -1,112 +1,138 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Function to fetch plant data from server and render plant sections
-  function fetchAndRenderPlants() {
-      fetch('/plants')
-          .then(response => response.json())
-          .then(data => {
-              const plantsContainer = document.querySelector('.plants');
-              plantsContainer.innerHTML = ''; // Clear existing content
+    function fetchAndRenderPlants() {
+        fetch('/plants')
+            .then(response => response.json())
+            .then(data => {
+                const plantsContainer = document.querySelector('.plants');
+                plantsContainer.innerHTML = ''; 
 
-              // Iterate over each plant data
-              data.forEach(plant => {
-                  // Create plant section element
-                  const plantSection = document.createElement('div');
-                  plantSection.classList.add('plant-section');
+                data.forEach(plant => {
+                    const plantSection = document.createElement('div');
+                    plantSection.classList.add('plant-section');
+                    const plantId = `plant-${plant.name.replace(/\s+/g, '-')}`;
+                    plantSection.id = plantId;
 
-                  // Create and append name row
-                  const nameRow = document.createElement('div');
-                  nameRow.classList.add('row', 'row1');
-                  nameRow.textContent = plant.name;
-                  plantSection.appendChild(nameRow);
+                    const nameRow = document.createElement('div');
+                    nameRow.classList.add('row', 'row1');
+                    nameRow.textContent = plant.name;
+                    plantSection.appendChild(nameRow);
 
-                  // Create and append GIF row
-                  const gifRow = document.createElement('div');
-                  gifRow.classList.add('row', 'row2');
-                  const plantGif = document.createElement('img');
-                  plantGif.classList.add('plant-gif', 'plant');
-                  plantGif.src = plant.img_source; 
-                  plantGif.alt = plant.name + 'alt';
-                  gifRow.appendChild(plantGif);
-                  plantSection.appendChild(gifRow);
+                    const gifRow = document.createElement('div');
+                    gifRow.classList.add('row', 'row2');
+                    const plantGif = document.createElement('img');
+                    plantGif.classList.add('plant-gif', 'plant');
+                    plantGif.src = plant.img_source;
+                    plantGif.alt = plant.name + ' alt';
+                    gifRow.appendChild(plantGif);
+                    plantSection.appendChild(gifRow);
 
-                  // Create and append water needs row
-                  const waterNeedsRow = document.createElement('div');
-                  waterNeedsRow.classList.add('row', 'row3');
-                  waterNeedsRow.textContent = `Water Needs: ${plant.water_needs}`;
-                  plantSection.appendChild(waterNeedsRow);
+                    const waterNeedsRow = document.createElement('div');
+                    waterNeedsRow.classList.add('row', 'row3');
+                    waterNeedsRow.textContent = `Water Needs: ${plant.water_needs}`;
+                    plantSection.appendChild(waterNeedsRow);
 
-                  // Create and append current water level row
-                  const currentWaterLevelRow = document.createElement('div');
-                  currentWaterLevelRow.classList.add('row', 'row4');
-                  currentWaterLevelRow.textContent = `Current Water Level: ${plant.current_water_level}`;
-                  plantSection.appendChild(currentWaterLevelRow);
+                    const currentWaterLevelRow = document.createElement('div');
+                    currentWaterLevelRow.classList.add('row', 'row4');
+                    const waterLevelId = `current-water-level-${plant.name.replace(/\s+/g, '-')}`;
+                    currentWaterLevelRow.id = waterLevelId;
+                    currentWaterLevelRow.textContent = `Current Water Level: ${plant.current_water_level}`;
+                    plantSection.appendChild(currentWaterLevelRow);
 
-                  // Append plant section to plants container
-                  plantsContainer.appendChild(plantSection);
-              });
-          })
-          .catch(error => console.error('Error fetching plant data:', error));
-  }
+                    plantsContainer.appendChild(plantSection);
+                });
+            })
+            .catch(error => console.error('Error fetching plant data:', error));
+    }
 
-  // Initialize Chart.js chart
-  const ctx = document.getElementById('soilMoistureChart').getContext('2d');
-  const soilMoistureChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: [], // Timestamps will be added here
-          datasets: [{
-              label: 'Soil Moisture Level',
-              data: [], // Moisture levels will be added here
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1,
-              fill: false
-          }]
-      },
-      options: {
-          scales: {
-              x: {
-                  type: 'time',
-                  time: {
-                      unit: 'second'
-                  }
-              },
-              y: {
-                  beginAtZero: true,
-                  max: 5
-              }
-          }
-      }
-  });
+    const ctx = document.getElementById('soilMoistureChart').getContext('2d');
+    const soilMoistureChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [], 
+            datasets: [] 
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'minute'  // Adjust the time unit to better fit longer data retention
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: 10
+                }
+            }
+        }
+    });
 
-  // Function to fetch soil moisture readings and update the chart
-  function fetchAndUpdateSoilMoisture() {
-      fetch('/plants')
-          .then(response => response.json())
-          .then(data => {
-              const now = new Date();
+    function fetchAndUpdateSoilMoisture() {
+    const maxDataPoints = 50; // Define maxDataPoints within the function scope
 
-              // Assuming data for one plant, you can loop through plants if needed
-              const soilMoistureLevel = data[0].current_water_level;
+    fetch('/plants')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Fetched data:', data); // Log fetched data for debugging
 
-              // Add new data point to the chart
-              soilMoistureChart.data.labels.push(now);
-              soilMoistureChart.data.datasets[0].data.push(soilMoistureLevel);
+            const now = new Date();
 
-              // Keep the last 10 readings
-              if (soilMoistureChart.data.labels.length > 10) {
-                  soilMoistureChart.data.labels.shift();
-                  soilMoistureChart.data.datasets[0].data.shift();
-              }
+            if (soilMoistureChart.data.datasets.length === 0) {
+                data.forEach(plant => {
+                    soilMoistureChart.data.datasets.push({
+                        label: plant.name,
+                        data: [],
+                        borderColor: getRandomColor(),
+                        borderWidth: 1,
+                        fill: false
+                    });
+                });
+            }
 
-              soilMoistureChart.update();
-          })
-          .catch(error => console.error('Error fetching soil moisture data:', error));
-  }
+            data.forEach((plant, index) => {
+                soilMoistureChart.data.datasets[index].data.push({
+                    x: now,
+                    y: plant.current_water_level
+                });
 
-  // Fetch and render plants on page load
-  fetchAndRenderPlants();
+                if (soilMoistureChart.data.datasets[index].data.length > maxDataPoints) {
+                    soilMoistureChart.data.datasets[index].data.shift();
+                }
 
-  // Fetch and update soil moisture readings every 10 seconds
-  setInterval(fetchAndUpdateSoilMoisture, 10000);
+                // Update current water level in the HTML
+                const currentWaterLevelElement = document.getElementById(`current-water-level-${plant.name.replace(/\s+/g, '-')}`);
+                if (currentWaterLevelElement) {
+                    currentWaterLevelElement.textContent = `Current Water Level: ${plant.current_water_level}`;
+                } else {
+                    console.error(`Element with ID current-water-level-${plant.name.replace(/\s+/g, '-')} not found`);
+                }
+            });
+
+            if (soilMoistureChart.data.labels.length > maxDataPoints) {
+                soilMoistureChart.data.labels.shift();
+            }
+
+            soilMoistureChart.update();
+        })
+        .catch(error => console.error('Error fetching soil moisture data:', error));
+    }
+
+
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    fetchAndRenderPlants();
+
+    setInterval(fetchAndUpdateSoilMoisture, 5000);
 });
-
