@@ -26,7 +26,7 @@ plants = [
 ]
 
 # Create an instance of the UltrasonicSensor
-ultrasonic_sensor = UltrasonicSensor(trigger_pin=0, echo_pin=1)
+ultrasonic_sensor = UltrasonicSensor(trigger_pin_num=0, echo_pin_num=1)
 
 def update_soil_moisture():
     while True:
@@ -82,10 +82,11 @@ def handle_client(client_socket):
         elif path == '/ultrasonic_reading':
             distance = ultrasonic_sensor.read_distance()
             percentage = ultrasonic_sensor.convert_sonic_reading_to_percentage(distance)
-            response_data = {"reading": distance, "percentage": percentage}
+            response_data = {"percentage": percentage}
             response = json.dumps(response_data)
             client_socket.send("HTTP/1.1 200 OK\nContent-Type: application/json\nConnection: close\n\n".encode('utf-8'))
             client_socket.sendall(response.encode('utf-8'))
+            print(percentage)
 
         else:
             client_socket.send("HTTP/1.1 404 Not Found\nConnection: close\n\n".encode('utf-8'))

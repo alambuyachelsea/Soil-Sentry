@@ -122,16 +122,33 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Error fetching soil moisture data:', error));
     }
 
-    function fetchUltrasonicReading() {
+    function fetchAndUpdateReservoirLevel() {
         fetch('/ultrasonic_reading')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('reservoirLevel').innerText = `${data.percentage}%`;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
             })
-            .catch(error => {
-                console.error('Error fetching ultrasonic reading:', error);
-                document.getElementById('reservoirLevel').innerText = 'Error';
-            });
+            .then(data => {
+                const reservoirPercentage = data.percentage;
+                document.getElementById('reservoirLevel').textContent = `${reservoirPercentage}%`;
+
+                // Update reservoir GIF based on percentage
+                const reservoirImage = document.querySelector('.reservoir-image');
+                if (reservoirImage) {
+                    if (reservoirPercentage >= 85) {
+                        reservoirImage.src = 'https://i.imgur.com/ZDuG0yg.gif';
+                    } else if (reservoirPercentage >= 70) {
+                        reservoirImage.src = 'https://i.imgur.com/02ih7zL.gif';
+                    } else if (reservoirPercentage >= 40) {
+                        reservoirImage.src = 'https://i.imgur.com/rET9V2E.gif';
+                    } else {
+                        reservoirImage.src = 'https://i.imgur.com/FENKob8.gif';
+                    }
+                }
+            })
+            .catch(error => console.error('Error fetching reservoir data:', error));
     }
 
     function getRandomColor() {
@@ -144,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     fetchAndRenderPlants();
-    fetchUltrasonicReading(); // Fetch initial ultrasonic reading
     setInterval(fetchAndUpdateSoilMoisture, 5000);
-    setInterval(fetchUltrasonicReading, 10000); // Update ultrasonic reading every 10 seconds
+    setInterval(fetchAndUpdateReservoirLevel, 5000); // Adjust interval as needed
 });
