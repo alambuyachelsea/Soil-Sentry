@@ -7,7 +7,7 @@ html {
 
 .main-top {
     height: 10%;
-    background-color: lightblue;
+    background-color: #faefe4;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +20,7 @@ html {
 
 .reservoir {
     flex: 0 0 20%;
-    background-color: lightcoral;
+    background-color: #e2fbfd;
     padding: 10px;
 }
 
@@ -33,6 +33,7 @@ html {
 
 .plants {
     display: flex;
+    background-color: #e5f4cb
     flex-direction: row;
     height: 50%; /* Occupy 50% of main-bottom */
     overflow-x: auto; /* Enable horizontal scrolling */
@@ -41,6 +42,7 @@ html {
 
 .plant-section {
     border: 1px solid #ccc;
+    background-color: #f8f8f8
     margin: 10px;
     padding: 10px;
     text-align: center;
@@ -75,22 +77,8 @@ html {
 }
 
 .graph {
-    display: flex;
-    flex-direction: row;
-    height: 50%; /* Equal height to plants */
-}
-
-.graph-left {
-    flex: 8; /* Takes up 80% of the width */
-    background-color: lightgreen;
+    background-color: #fffbf8;
     border: 1px solid black;
     margin-right: 5px;
+    height: 50%; /* Equal height to plants */
 }
-
-.graph-right {
-    flex: 2; /* Takes up 20% of the width */
-    background-color: lightpink;
-    border: 1px solid black;
-    margin-left: 5px;
-}
-

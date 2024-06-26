@@ -2,10 +2,6 @@ from water_pump import WaterPump
 from soil_sensor import SoilSensor
 
 
-# plant_profile.py
-
-from soil_sensor import SoilSensor  # Assuming SoilSensor class is defined in soil_sensor.py
-
 class PlantProfile:
     def __init__(self, name, water_needs, pump_pin, sensor_pin, img_source):
         self.name = name
@@ -15,9 +11,6 @@ class PlantProfile:
         self.soil_sensor = SoilSensor(sensor_pin)  # Instantiate SoilSensor object using sensor_pin
         self.img_source = img_source
     
-    def get_source(self):
-        return self.source
-
     def get_name(self):
         return self.name
 
@@ -31,14 +24,18 @@ class PlantProfile:
 
     def convert_soil_moisture_to_scale(self, reading):
         thresholds = [
-            (24093.30, 1),  # air in a closed room
-            (21060.00, 2),  # very dry soil
-            (17684.50, 3),  # lightly watered soil
-            (13991.00, 4),  # heavily watered soil
-            (13613.18, 5)   # 100% water
+            (24293, 0),  # Air in a dry room
+            (24093, 1),  # Extremely dry soil
+            (21060, 2),  # Dry soil
+            (17684, 3),  # lightly watered soil
+            (15991, 4),  # heavily watered soil
+            (13713, 5)   # 100% water
         ]
 
         for threshold, scale_value in thresholds:
             if reading >= threshold:
                 return scale_value
         return 5  # Default to 5 if below the lowest threshold
+
+    def get_img_source(self):
+        return self.img_source

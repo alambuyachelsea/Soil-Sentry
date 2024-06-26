@@ -68,60 +68,71 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function fetchAndUpdateSoilMoisture() {
-    const maxDataPoints = 50; // Define maxDataPoints within the function scope
+        const maxDataPoints = 100; // Define maxDataPoints within the function scope
 
-    fetch('/plants')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Fetched data:', data); // Log fetched data for debugging
+        fetch('/plants')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Fetched data:', data); // Log fetched data for debugging
 
-            const now = new Date();
+                const now = new Date();
 
-            if (soilMoistureChart.data.datasets.length === 0) {
-                data.forEach(plant => {
-                    soilMoistureChart.data.datasets.push({
-                        label: plant.name,
-                        data: [],
-                        borderColor: getRandomColor(),
-                        borderWidth: 1,
-                        fill: false
+                if (soilMoistureChart.data.datasets.length === 0) {
+                    data.forEach(plant => {
+                        soilMoistureChart.data.datasets.push({
+                            label: plant.name,
+                            data: [],
+                            borderColor: getRandomColor(),
+                            borderWidth: 1,
+                            fill: false
+                        });
                     });
-                });
-            }
-
-            data.forEach((plant, index) => {
-                soilMoistureChart.data.datasets[index].data.push({
-                    x: now,
-                    y: plant.current_water_level
-                });
-
-                if (soilMoistureChart.data.datasets[index].data.length > maxDataPoints) {
-                    soilMoistureChart.data.datasets[index].data.shift();
                 }
 
-                // Update current water level in the HTML
-                const currentWaterLevelElement = document.getElementById(`current-water-level-${plant.name.replace(/\s+/g, '-')}`);
-                if (currentWaterLevelElement) {
-                    currentWaterLevelElement.textContent = `Current Water Level: ${plant.current_water_level}`;
-                } else {
-                    console.error(`Element with ID current-water-level-${plant.name.replace(/\s+/g, '-')} not found`);
+                data.forEach((plant, index) => {
+                    soilMoistureChart.data.datasets[index].data.push({
+                        x: now,
+                        y: plant.current_water_level
+                    });
+
+                    if (soilMoistureChart.data.datasets[index].data.length > maxDataPoints) {
+                        soilMoistureChart.data.datasets[index].data.shift();
+                    }
+
+                    // Update current water level in the HTML
+                    const currentWaterLevelElement = document.getElementById(`current-water-level-${plant.name.replace(/\s+/g, '-')}`);
+                    if (currentWaterLevelElement) {
+                        currentWaterLevelElement.textContent = `Current Water Level: ${plant.current_water_level}`;
+                    } else {
+                        console.error(`Element with ID current-water-level-${plant.name.replace(/\s+/g, '-')} not found`);
+                    }
+                });
+
+                if (soilMoistureChart.data.labels.length > maxDataPoints) {
+                    soilMoistureChart.data.labels.shift();
                 }
-            });
 
-            if (soilMoistureChart.data.labels.length > maxDataPoints) {
-                soilMoistureChart.data.labels.shift();
-            }
-
-            soilMoistureChart.update();
-        })
-        .catch(error => console.error('Error fetching soil moisture data:', error));
+                soilMoistureChart.update();
+            })
+            .catch(error => console.error('Error fetching soil moisture data:', error));
     }
 
+    function fetchUltrasonicReading() {
+        fetch('/ultrasonic_reading')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('reservoirLevel').innerText = `${data.percentage}%`;
+            })
+            .catch(error => {
+                console.error('Error fetching ultrasonic reading:', error);
+                document.getElementById('reservoirLevel').innerText = 'Error';
+            });
+    }
 
     function getRandomColor() {
         const letters = '0123456789ABCDEF';
@@ -133,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     fetchAndRenderPlants();
-
+    fetchUltrasonicReading(); // Fetch initial ultrasonic reading
     setInterval(fetchAndUpdateSoilMoisture, 5000);
+    setInterval(fetchUltrasonicReading, 10000); // Update ultrasonic reading every 10 seconds
 });
