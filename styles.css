@@ -8,7 +8,8 @@ body, html {
 
 .top {
   height: 10%;
-  padding: 20px 20px 20px 20px; /* top right bottom left */
+  margin-top: 20px; /* Adjust this value as needed */
+  padding: 0px 20px 20px 20px; /* top right bottom left */
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
   
@@ -18,8 +19,10 @@ body, html {
   height: 100%;
   background-color: #faefe4;
   border-radius: 30px; /* Adjust the value as needed */
-  font-size: 100px; /* Change this value as needed */
+  font-size: 7vw; /* Relative to viewport width */ /* Change this value as needed */
   text-align: center;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
   padding: 0px 20px 0px 20px; /* top right bottom left */
 
 }
@@ -27,7 +30,7 @@ body, html {
 .bottom {
   height: 90%;
   display: flex;  
-  padding: 0px 0px 20px 20px; /* top right bottom left */
+  padding: 0px 10px 20px 20px; /* top right bottom left */
 }
 
 .left {
@@ -37,7 +40,7 @@ body, html {
   border-radius: 20px; /* Adjust the value as needed */
   padding: 20px; /* Adjust the value as needed */
   padding: 0px 10px 0px 10px; /* top right bottom left */
-  font-size: 150px
+  font-size: 10vw
   
 }
 
@@ -54,7 +57,7 @@ body, html {
   height: 50%; /* Equal height to right-bottom */
   border-radius: 10px; /* Adjust the value as needed */
   background-color: #f1eeee;
-  padding: 20px 20px 20px 10px; /* top right bottom left */
+  padding: 20px 20px 20px 20px; /* top right bottom left */
 }
 
 .right-top-section {
