@@ -1,60 +1,100 @@
 body, html {
   height: 100%;
   margin: 0;
+  font-family: "Courier New", Courier, monospace;
+  display: fixed;
+  overflow: hidden; /* Prevents scrolling */
 }
 
 .top {
   height: 10%;
-  background-color: lightblue;
+  padding: 20px 20px 20px 20px; /* top right bottom left */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  
+}
+
+.heading{
+  height: 100%;
+  background-color: #faefe4;
+  border-radius: 30px; /* Adjust the value as needed */
+  font-size: 100px; /* Change this value as needed */
+  text-align: center;
+  padding: 0px 20px 0px 20px; /* top right bottom left */
+
 }
 
 .bottom {
   height: 90%;
-  display: flex;
+  display: flex;  
+  padding: 0px 0px 20px 20px; /* top right bottom left */
 }
 
 .left {
   flex: 0 0 20%;
-  background-color: lightcoral;
+  text-align: center;
+  background-color: #e2fbfd;
+  border-radius: 20px; /* Adjust the value as needed */
+  padding: 20px; /* Adjust the value as needed */
+  padding: 0px 10px 0px 10px; /* top right bottom left */
+  font-size: 150px
+  
 }
 
 .right {
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 0px 10px 0px 20px; /* top right bottom left */
 }
 
 .right-top {
   display: flex;
   flex-direction: row;
   height: 50%; /* Equal height to right-bottom */
+  border-radius: 10px; /* Adjust the value as needed */
+  background-color: #f1eeee;
+  padding: 20px 20px 20px 10px; /* top right bottom left */
 }
 
 .right-top-section {
   flex: 1;
-  background-color: lightgoldenrodyellow;
+  text-align: center;
+  background-color: #e5f4cb;
   border: 1px solid black;
   margin: 5px;
+  border-radius: 10px; /* Adjust the value as needed */
+  padding: 20px 20px 20px 20px; /* top right bottom left */
+  
 }
 
 .right-bottom {
+  background-color: #f1eeee;
   display: flex;
   flex-direction: row;
   height: 50%; /* Equal height to right-top */
+  border-radius: 10px; /* Adjust the value as needed */
+  padding: 20px 20px 20px 10px; /* top right bottom left *//
 }
 
 .right-bottom-left {
-  flex: 8; /* Takes up 80% of the width */
+  text-align: center;
+  flex: 5; /* Takes up 80% of the width */
   background-color: lightgreen;
   border: 1px solid black;
   margin-right: 5px;
+  border-radius: 20px; /* Adjust the value as needed */
+  padding: 10px; /* Adjust the value as needed */
 }
 
 .right-bottom-right {
-  flex: 2; /* Takes up 20% of the width */
+  flex: 5; /* Takes up 20% of the width */
+  text-align: center;
   background-color: lightpink;
   border: 1px solid black;
   margin-left: 5px;
+  border-radius: 20px; /* Adjust the value as needed */
+  padding: 10px; /* Adjust the value as needed */
 }
 
 
