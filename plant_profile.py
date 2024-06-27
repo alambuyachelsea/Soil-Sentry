@@ -8,9 +8,9 @@ class PlantProfile:
         self.water_needs = water_needs
         self.pump_pin = pump_pin
         self.sensor_pin = sensor_pin
-        self.soil_sensor = SoilSensor(sensor_pin)  # Instantiate SoilSensor object using sensor_pin
+        self.soil_sensor = SoilSensor(sensor_pin)
         self.img_source = img_source
-    
+
     def get_name(self):
         return self.name
 
