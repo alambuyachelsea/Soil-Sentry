@@ -7,6 +7,7 @@ import websockets
 # Global variable to store sensor data
 sensor_data = {}
 
+
 # HTTP request handler
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -94,6 +95,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"Error: Unsupported request\r\n")
 
+
 # WebSocket server handler
 async def handle_websocket(websocket, path):
     try:
@@ -108,12 +110,14 @@ async def handle_websocket(websocket, path):
     except websockets.exceptions.ConnectionClosedError:
         print("WebSocket connection closed")
 
+
 # Function to send data to all WebSocket clients
 async def send_data_to_clients(data):
     connected_clients = asyncio.all_tasks()
     for task in connected_clients:
         if isinstance(task, asyncio.Task) and task.get_coro() == handle_websocket:
             await task.get_coro()(data)
+
 
 # Function to run the HTTP server
 def run_http_server():
@@ -127,12 +131,14 @@ def run_http_server():
     httpd.server_close()
     print('HTTP server stopped.')
 
+
 # Function to run the WebSocket server
 async def run_websocket_server():
     start_server = websockets.serve(handle_websocket, 'localhost', 8765)
     print('Starting WebSocket server on ws://localhost:8765...')
     await start_server.wait_closed()
     print('WebSocket server stopped.')
+
 
 # Function to run both servers
 def run_servers():
