@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Error fetching plant data:', error));
     }
 
-    const ctx = document.getElementById('soilMoistureChart').getContext('2d');
+    const ctx = document.getElementById('hourlySoilMoistureChart').getContext('2d');
     const soilMoistureChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => console.error('Error fetching reservoir data:', error));
     }
+
 
     function getRandomColor() {
         const letters = '0123456789ABCDEF';

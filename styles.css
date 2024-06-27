@@ -33,7 +33,7 @@ html {
 
 .plants {
     display: flex;
-    background-color: #e5f4cb
+    background-color: #e5f4cb;
     flex-direction: row;
     height: 50%; /* Occupy 50% of main-bottom */
     overflow-x: auto; /* Enable horizontal scrolling */
@@ -42,7 +42,7 @@ html {
 
 .plant-section {
     border: 1px solid #ccc;
-    background-color: #f8f8f8
+    background-color: #f8f8f8;
     margin: 10px;
     padding: 10px;
     text-align: center;
@@ -76,7 +76,7 @@ html {
     background-color: lightcoral;
 }
 
-.graph {
+.graph-left {
     background-color: #fffbf8;
     border: 1px solid black;
     margin-right: 5px;
