@@ -3,6 +3,8 @@ html {
     height: 100%;
     margin: 0;
     overflow: hidden; /* Prevent scrolling on the main body */
+    font-family: "Courier New", Courier, monospace;
+    display: fixed;
 }
 
 .main-top {
@@ -76,9 +78,23 @@ html {
     background-color: lightcoral;
 }
 
+.graph {
+  display: flex;
+  flex-direction: row;
+  height: 50%; /* Equal height to right-top */
+}
+
+
 .graph-left {
-    background-color: #fffbf8;
-    border: 1px solid black;
-    margin-right: 5px;
-    height: 50%; /* Equal height to plants */
+  flex: 5; /* Takes up 80% of the width */
+  background-color: #fffbf8;
+  border: 1px solid black;
+  margin-right: 5px;
+}
+
+.graph-right {
+  flex: 5; /* Takes up 20% of the width */
+  background-color: #fffbf8;
+  border: 1px solid black;
+  margin-left: 5px;
 }

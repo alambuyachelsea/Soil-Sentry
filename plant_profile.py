@@ -18,24 +18,7 @@ class PlantProfile:
         return self.water_needs
 
     def get_current_water_level(self):
-        reading = self.soil_sensor.read_moisture_level()
-        level = self.convert_soil_moisture_to_scale(reading)
-        return level
-
-    def convert_soil_moisture_to_scale(self, reading):
-        thresholds = [
-            (24293, 0),  # Air in a dry room
-            (24093, 1),  # Extremely dry soil
-            (21060, 2),  # Dry soil
-            (17684, 3),  # lightly watered soil
-            (15991, 4),  # heavily watered soil
-            (13713, 5)   # 100% water
-        ]
-
-        for threshold, scale_value in thresholds:
-            if reading >= threshold:
-                return scale_value
-        return 5  # Default to 5 if below the lowest threshold
+        return self.soil_sensor.measure_current_water_level()
 
     def get_img_source(self):
         return self.img_source

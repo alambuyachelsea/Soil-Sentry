@@ -59,6 +59,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         if self.path == '/receive_data':
+            print("here")
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
 
@@ -97,7 +98,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 
 # WebSocket server handler
-async def handle_websocket(websocket, path):
+async def handle_websocket(websocket):
     try:
         while True:
             message = await websocket.recv()
@@ -126,6 +127,7 @@ def run_http_server():
     print('Starting HTTP server on port 8000...')
     try:
         httpd.serve_forever()
+        print("server forever")
     except KeyboardInterrupt:
         pass
     httpd.server_close()
@@ -136,8 +138,6 @@ def run_http_server():
 async def run_websocket_server():
     start_server = websockets.serve(handle_websocket, 'localhost', 8765)
     print('Starting WebSocket server on ws://localhost:8765...')
-    await start_server.wait_closed()
-    print('WebSocket server stopped.')
 
 
 # Function to run both servers
