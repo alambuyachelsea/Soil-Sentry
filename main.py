@@ -23,7 +23,8 @@ print('Connected to Wi-Fi')
 print('IP Address:', wlan.ifconfig()[0])
 
 # HTTP endpoint (replace with your server URL)
-server_url = 'http://192.168.0.179:8000/receive_data'  # Example URL where the server receives data
+# Example URL where the server receives data
+server_url = 'http://192.168.0.179:8000/receive_data'
 
 # Plant profiles with sensor pins
 plants = [
@@ -42,6 +43,8 @@ ultrasonic_sensor = UltrasonicSensor(trigger_pin_num=0, echo_pin_num=1)
 led = machine.Pin(25, machine.Pin.OUT)
 
 # Function to read soil moisture and ultrasonic sensor
+
+
 def read_sensors():
     readings = {}
 
@@ -58,24 +61,27 @@ def read_sensors():
         }
         for plant in plants
     ]
-    
+
     readings["plants"] = plant_data
 
     try:
         distance = ultrasonic_sensor.read_distance()
-        percentage = ultrasonic_sensor.convert_sonic_reading_to_percentage(distance)
+        percentage = ultrasonic_sensor.convert_sonic_reading_to_percentage(
+            distance)
         readings["level"] = percentage
-        
+
     except Exception as e:
         print("Error reading ultrasonic sensor:", e)
         readings["level"] = None
-        
+
     # Turn off the onboard LED
     led.value(0)
 
     return readings
 
 # Function to send sensor data via HTTP POST
+
+
 def send_sensor_data():
     data = read_sensors()
 
@@ -90,6 +96,7 @@ def send_sensor_data():
         response.close()
     except Exception as e:
         print("Error sending HTTP POST request:", e)
+
 
 # Send sensor data periodically
 while True:
