@@ -3,35 +3,24 @@ html {
   height: 100%;
   margin: 0;
   overflow: hidden;
-  /* Prevent scrolling on the main body */
   font-family: "Courier New", Courier, monospace;
 }
 
 .top {
   height: 10%;
   padding: 0px 20px 20px 20px;
-  /* top right bottom left */
   justify-content: normal;
-  /* Center horizontally */
   align-items: center;
-  /* Center vertically */
-
 }
 
 .heading {
   background-color: #faefe4;
   border-radius: 30px;
-  /* Adjust the value as needed */
   font-size: 30px;
-  /* Relative to viewport width */
-  /* Change this value as needed */
   text-align: center;
   justify-content: center;
-  /* Center horizontally */
   align-items: center;
-  /* Center vertically */
   padding: 0px 20px 0px 20px;
-  /* top right bottom left */
 
 }
 
@@ -47,10 +36,7 @@ html {
   text-align: center;
   background-color: #e2fbfd;
   border-radius: 20px;
-  /* Adjust the value as needed */
-  /* Adjust the value as needed */
   padding: 0px 10px 0px 10px;
-  /* top right bottom left */
 
   .reservoir-level {
     font-size: 30px
@@ -69,15 +55,10 @@ html {
   background-color: #f1eeee;
   flex-direction: row;
   height: 40%;
-  /* Occupy 50% of main-bottom */
   padding: 0px 20px 0px 20px;
-  /* top right bottom left */
   border-radius: 10px;
-  /* Adjust the value as needed */
   overflow-x: auto;
-  /* Enable horizontal scrolling */
   white-space: nowrap;
-  /* Prevent line breaks within child elements */
 }
 
 .plant-section {
@@ -88,18 +69,14 @@ html {
   padding: 10px;
   text-align: center;
   border-radius: 10px;
-  /* Adjust the value as needed */
   flex: 0 0 calc(25% - 20px);
-  /* Each plant section takes up 25% of the container width */
 }
 
 .plant-gif {
   max-width: 100%;
   max-height: 100px;
-  /* Set a maximum height for the GIFs */
   display: block;
   margin: 0 auto;
-  /* Center the image horizontally */
 }
 
 .row {
@@ -108,7 +85,7 @@ html {
   padding: 5px;
 }
 
-.row1 {
+/*.row1 {
 }
 
 .row2 {
@@ -116,21 +93,18 @@ html {
 
 .row3,
 .row4 {
-}
+}*/
 
 .graph {
   display: flex;
   flex-direction: row;
   height: 50%;
-  /* Equal height to right-top */
   padding: 10px 0px 0px 0px;
-  /* top right bottom left */
 }
 
 
 .graph-left {
   flex: 5;
-  /* Takes up 80% of the width */
   background-color: #fffbf8;
   border: 1px solid black;
   margin-right: 5px;
@@ -138,7 +112,6 @@ html {
 
 .graph-right {
   flex: 5;
-  /* Takes up 20% of the width */
   background-color: #fffbf8;
   border: 1px solid black;
   margin-left: 5px;
