@@ -23,33 +23,47 @@ print('Connected to Wi-Fi')
 print('IP Address:', wlan.ifconfig()[0])
 
 # HTTP endpoint (replace with your server URL)
-# Example URL where the server receives data
-server_url = 'http://192.168.0.179:8000/receive_data'
+# Change URL where the server receives data
+server_url = 'http://192.168.151.179:8000/receive_data'
 
 # Plant profiles with sensor pins
 plants = [
-    PlantProfile(name="Basil", water_needs=2, pump_pin=6,
+    PlantProfile(name="Basil", water_needs=2, pump_pin=14,
                  sensor_pin=28, img_source='https://i.imgur.com/w8xuEfx.gif'),
-    PlantProfile(name="Aloe", water_needs=1, pump_pin=7,
+    PlantProfile(name="Aloe", water_needs=1, pump_pin=13,
                  sensor_pin=27, img_source='https://i.imgur.com/e9EikGU.gif'),
-    PlantProfile(name="Begonia", water_needs=3, pump_pin=8,
-                 sensor_pin=26, img_source='https://i.imgur.com/phBFJkd.gif')
+    PlantProfile(name="Pink Begonia", water_needs=3, pump_pin=15,
+                 sensor_pin=26, img_source='https://i.imgur.com/phBFJkd.gif'),
+    
 ]
 
 # Initialize ultrasonic sensor
 ultrasonic_sensor = UltrasonicSensor(trigger_pin_num=0, echo_pin_num=1)
 
-# Initialize onboard LED
-led = machine.Pin(25, machine.Pin.OUT)
 
 # Function to read soil moisture and ultrasonic sensor
+def water_plants():
+    if get_reservoir_level() > 20:
+        print("greter")
+        
+        for plant in plants:
+            print(plant.get_name(), plant.get_current_water_level(), plant.get_water_needs())
+
+    
+            if plant.get_current_water_level() < plant.get_water_needs():
+                plant.water_self()
+                
+
+def get_reservoir_level():
+    
+    distance = ultrasonic_sensor.read_distance()
+    percentage = ultrasonic_sensor.convert_sonic_reading_to_percentage(
+        distance)
+    return percentage
 
 
 def read_sensors():
     readings = {}
-
-    # Turn on the onboard LED
-    led.value(1)
 
     # Read soil moisture sensors
     plant_data = [
@@ -61,27 +75,21 @@ def read_sensors():
         }
         for plant in plants
     ]
-
     readings["plants"] = plant_data
+    
 
     try:
-        distance = ultrasonic_sensor.read_distance()
-        percentage = ultrasonic_sensor.convert_sonic_reading_to_percentage(
-            distance)
+        percentage = get_reservoir_level()
         readings["level"] = percentage
 
     except Exception as e:
         print("Error reading ultrasonic sensor:", e)
         readings["level"] = None
 
-    # Turn off the onboard LED
-    led.value(0)
-
     return readings
 
+
 # Function to send sensor data via HTTP POST
-
-
 def send_sensor_data():
     data = read_sensors()
 
@@ -90,6 +98,7 @@ def send_sensor_data():
 
     # Send HTTP POST request
     try:
+
         headers = {'Content-Type': 'application/json'}
         response = requests.post(server_url, data=json_data, headers=headers)
         print('HTTP POST Status:', response.status_code)
@@ -101,4 +110,9 @@ def send_sensor_data():
 # Send sensor data periodically
 while True:
     send_sensor_data()
+    print("start")
+    water_plants()
+
     time.sleep(10)  # Delay between readings
+    
+

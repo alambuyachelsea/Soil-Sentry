@@ -15,7 +15,7 @@ class WaterPump:
         self.pump.value(0)
         print(f"Water pump on pin {self.pump} is OFF")
 
-    def pump_water(self, duration=10):
+    def pump_water(self, duration=5):
         self.turn_on()
         time.sleep(duration)
         self.turn_off()

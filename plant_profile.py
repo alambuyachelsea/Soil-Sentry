@@ -6,8 +6,7 @@ class PlantProfile:
     def __init__(self, name, water_needs, pump_pin, sensor_pin, img_source):
         self.name = name
         self.water_needs = water_needs
-        self.pump_pin = pump_pin
-        self.sensor_pin = sensor_pin
+        self.water_pump = WaterPump(pump_pin)
         self.soil_sensor = SoilSensor(sensor_pin)
         self.img_source = img_source
 
@@ -22,3 +21,6 @@ class PlantProfile:
 
     def get_img_source(self):
         return self.img_source
+
+    def water_self(self):
+        self.water_pump.pump_water()

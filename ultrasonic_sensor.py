@@ -7,6 +7,7 @@ class UltrasonicSensor:
         self.echo_pin = machine.Pin(echo_pin_num, machine.Pin.IN)
 
     def read_distance(self):
+        
         # Send a 10us pulse to trigger the sensor
         self.trigger_pin.value(1)
         utime.sleep_us(10)
@@ -22,7 +23,6 @@ class UltrasonicSensor:
 
         # Calculate the duration of the pulse
         pulse_duration = utime.ticks_diff(pulse_end, pulse_start)
-
         # Speed of sound is approximately 343 meters per second
         # Divide by 2 to account for round trip
         distance = (pulse_duration * 34300) / 2
