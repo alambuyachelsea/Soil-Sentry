@@ -1,12 +1,11 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import asyncio
 import json
 import threading
-import asyncio
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import websockets
 
 # Global variable to store sensor data
 sensor_data = {}
-
 
 # HTTP request handler
 class RequestHandler(BaseHTTPRequestHandler):
@@ -39,7 +38,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json')
                     self.end_headers()
-                    self.wfile.write(json.dumps(sensor_data['plants']).encode('utf-8'))
+                    self.wfile.write(json.dumps(sensor_data.get('plants', {})).encode('utf-8'))
                 else:
                     self.send_error(404, 'Sensor data not available')
             elif self.path == '/ultrasonic_reading':
@@ -59,13 +58,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         if self.path == '/receive_data':
-            print("here")
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
 
             try:
                 json_data = json.loads(post_data.decode('utf-8'))
-                print('Received sensor data:', json_data)
 
                 # Store sensor data globally
                 global sensor_data
@@ -96,9 +93,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"Error: Unsupported request\r\n")
 
-
 # WebSocket server handler
-async def handle_websocket(websocket):
+async def handle_websocket(websocket, path):
     try:
         while True:
             message = await websocket.recv()
@@ -111,14 +107,12 @@ async def handle_websocket(websocket):
     except websockets.exceptions.ConnectionClosedError:
         print("WebSocket connection closed")
 
-
 # Function to send data to all WebSocket clients
 async def send_data_to_clients(data):
     connected_clients = asyncio.all_tasks()
     for task in connected_clients:
         if isinstance(task, asyncio.Task) and task.get_coro() == handle_websocket:
             await task.get_coro()(data)
-
 
 # Function to run the HTTP server
 def run_http_server():
@@ -127,18 +121,16 @@ def run_http_server():
     print('Starting HTTP server on port 8000...')
     try:
         httpd.serve_forever()
-        print("server forever")
     except KeyboardInterrupt:
         pass
     httpd.server_close()
     print('HTTP server stopped.')
 
-
 # Function to run the WebSocket server
 async def run_websocket_server():
-    start_server = websockets.serve(handle_websocket, 'localhost', 8765)
-    print('Starting WebSocket server on ws://localhost:8765...')
-
+    async with websockets.serve(handle_websocket, 'localhost', 8765):
+        print('Starting WebSocket server on ws://localhost:8765...')
+        await asyncio.Future()  # Keep the WebSocket server running indefinitely
 
 # Function to run both servers
 def run_servers():
