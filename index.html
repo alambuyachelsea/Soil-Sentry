@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Divs Layout</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soil Sentry Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-    <div class="top">
-      <div class="heading">
-        Soil Sentry Dashboard
+  <div class="top">
+    <div class="heading">
+      <h1>Soil Sentry Dashboard</h1>
     </div>
+  </div>
+  <div class="main-bottom">
+    <div class="reservoir">
+      <div class="reservoir-level">
+        <h1 id="reservoirLevel">?%</h1>
+      </div>
+      <div class="reservoir-gif">
+        <img src="https://i.imgur.com/ZDuG0yg.gif" alt="Reservoir alt" class="reservoir-image">
+      </div>
     </div>
-    <div class="bottom">
-        <div class="left">
-            100
+    <div class="plant-graph">
+      <div class="plants" id="plantContainer">
+        <!-- Plant divs will be dynamically inserted here -->
+      </div>
+      <div class="graph">
+
+        <div class="graph-left">
+           <canvas id="hourlySoilMoistureChart"></canvas>
         </div>
-        <div class="right">
-            <div class="right-top">
-                <div class="right-top-section">Section 1</div>
-                <div class="right-top-section">Section 2</div>
-                <div class="right-top-section">Section 3</div>
-            </div>
-            <div class="right-bottom">
-                <div class="right-bottom-left">
-                  <div class="horly-graph-section">
-                    Today's Data
-                  </div>
-                </div>
-                <div class="right-bottom-right">
-                  <div class="weekly-graph-section">
-                    Past Data
-                  </div>
-                </div>
-            </div>
+        <div class="graph-right">
+           <canvas id="dailySoilMoistureChart"></canvas>
         </div>
     </div>
+  </div>
+
+  <script src="script.js"></script>
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Include moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+  <!-- Include Chart.js adapter for moment.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
 </body>
+
 </html>
 
