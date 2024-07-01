@@ -17,7 +17,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             if self.path == '/' or self.path == '/index.html':
                 # Serve the index.html file
 
-                with open('index.html', 'rb') as file:
+                with open('/webpage/index.html', 'rb') as file:
                     self.send_response(200)
                     self.send_header('Content-type', 'text/html')
                     self.end_headers()
@@ -25,14 +25,14 @@ class RequestHandler(BaseHTTPRequestHandler):
 
             elif self.path == '/styles.css':  # Serve the styles.css file
 
-                with open('styles.css', 'rb') as file:
+                with open('/webpage/styles.css', 'rb') as file:
                     self.send_response(200)
                     self.send_header('Content-type', 'text/css')
                     self.end_headers()
                     self.wfile.write(file.read())
 
             elif self.path == '/script.js':  # Serve the script.js file
-                with open('script.js', 'rb') as file:
+                with open('/webpage/script.js', 'rb') as file:
                     self.send_response(200)
                     self.send_header('Content-type', 'application/javascript')
                     self.end_headers()

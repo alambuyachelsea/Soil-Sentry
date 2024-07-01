@@ -284,6 +284,6 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchAndRenderPlants();
     fetchAndUpdateSoilMoisture();
     fetchAndUpdateDailyAverage();
-    setInterval(fetchAndUpdateSoilMoisture, 6000); // Fetch and update soil moisture every 60 seconds
-    setInterval(fetchAndUpdateDailyAverage, 8640); // Fetch and update daily average every 24 hours
+    setInterval(fetchAndUpdateSoilMoisture, 3600000); // Fetch and update soil moisture every hour
+    setInterval(fetchAndUpdateDailyAverage, 86400000); // Fetch and update daily average every 24 hours
 });
