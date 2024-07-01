@@ -97,7 +97,25 @@ Calibrating the ultra sonic sensor is similar to the soil moisture sensors;
 
 - Water Pump and 5V relay module - Connect the water pump's gnd to the left side (-) line on the breadboard and the the pump's (+) line to the relays normally open(NO) terminal. Then connect the relay's (-) and (+) pins to the GND and the (+) line on the left side of the breadboard. Connect the relays control input pin to any available GPIO pin.
 
-### 
-Upload the the main.py, plant_profile.py, water_pump.py, ultrasonic_sensor.py and soil_sensor.py files to the pico
 
-### Platform
+### Platform for Data Transimission
+For the project, I decided to send the sensor data via a json data file sent over HTTP. I set up a server on my laptop to listen for data transmitted by the pico inorder to process it. When the pico connects to the same network as the server, the sensor data is read and transmitted to the server as a POST request and stored as a variable. When the dashboard is requested for from a browser, the server servers the index.html file (styled with css) and JavaScript method requests for the data to be displayed. At this point, the data has been recieved by the server and stored in a variable so this information is sent. I decided to create a custom dashboard as I felt the available options were too restricting in how the data could be visualized and additionally I could style it to my preference.
+
+### The Code
+#### Controller Code
+The code is fairly straight forward. In controller_code folder is the code to be uploaded to the Raspberry Pi Pico W and works as follows,
+  - plant_profile.py: This class allows different plant types to be created with specific water needs, a soil sensor pin and a water pump pin.
+  - water_pump.py: This allows the water to be turned on and off when a plant requires water
+  - Soil_sensor.py: This takes the soil moisture level and converts it according to the scale created during the sensor calibration
+  - ultrasonic_sensor.py: This transimits a sonic pulse, waits for an encho and uses the time difference to determine how far the water is from the sensor, this is then converted to an approximate percentage of remaining water in the reservoir.
+  - main.py: This is where different plant profiles are created with their respective soil sensors and water pump pins. The ultra sonic sensor is also initialized with the trigger and echo pins. The program then periodically reads data from the various sensors and transmits it to the server via an HTTP POST request. After the data is transmitted, the reservoir level is checked to make sure there's enough enough water to water  the plants, if there is, all the plants' current water levels are checked to see if they fall below their water needs. If the water level is below their needs, then it's associated pump is turned on for 10 seconds which provides sufficient water to increase it's current water level and then turned off. After one hour, the process is repeated.
+
+#### Server code
+This Python script sets up a system to manage sensor data through both an HTTP server and a WebSocket server. The HTTP server, built using `BaseHTTPRequestHandler` and `HTTPServer`, handles GET requests to serve static files like `index.html`, `styles.css`, and `script.js`, as well as JSON data for endpoints such as `/plants` and `/ultrasonic_reading`. It also handles POST requests to receive sensor data at the `/receive_data` endpoint, storing this data in a global dictionary `sensor_data`. When new sensor data is posted, it is also sent to all connected WebSocket clients using asynchronous communication.
+
+The WebSocket server, created with the `websockets` library, manages real-time communication with clients. It handles incoming WebSocket connections and responds to requests for sensor data. A function `send_data_to_clients` is used to broadcast updated sensor data to all connected WebSocket clients. Both servers are run concurrently: the HTTP server in a separate thread and the WebSocket server in the main thread, allowing the system to handle HTTP requests and WebSocket communication simultaneously. This setup facilitates a dashboard webpage where clients can receive dynamic updates of sensor data in real-time.
+
+
+### Final look
+Over all, the roject turned out as I origianlly designed but throught out the process I realized I was limited to only 3 three ADC pins on the pico so if i wanted to add more plants I'd have to purchase an additional digital soils sensor. It was also quite difficult to calibrate the soil sensors as they were quite immprecise and had verry different ranges.
+![Alt text](assets/final_result.png)
