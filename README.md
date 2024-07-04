@@ -42,6 +42,7 @@ These items can be purchased online at stores that sells electronic components, 
 |<img src="https://www.electrokit.com/upload/product/41018/41018791/41018791.jpg" alt="Submersible waterpump 3V" width="100"> |Submersible waterpump 3V *| 45| To pump the water from the reservoir to the plants|
 |<img src="https://www.electrokit.com/upload/product/41015/41015704/41015704.jpg" alt="5V Relay Module" width="100">|5V Relay Module *| 60|Handles switching operations between the 3V pump and a separate 5V control signal|
 |<img src="https://www.electrokit.com/cache/89/999x999-quick_ab_5b_0228_42338.png" alt="9V Battery" width="100">|9V Battery|60|Power Supply for the water  pumps|
+|<img src="https://www.electrokit.com/upload/product/41010/41010037/41010037.jpg" alt="Battery cord" width="100">|Battery cord|20|Connects battery to power supply module|
 |<img src="https://m.media-amazon.com/images/I/61ZkfoqkAUL._AC_SL1000_.jpg" alt="Breadboard Power Supply Module" width="100">|Breadboard Power Supply Module|60|Power Supply to the breadboard for the water  pumps|
 |<img src="https://www.electrokit.com/upload/product/41013/41013207/41013207.jpg" alt="HC-SR04 Ultrasonic Range Sensor" width="100">|HC-SR04 Ultrasonic Range Sensor| 23| To measure the reservoir level|
 |<img src="https://www.electrokit.com/cache/24/999x999-product_41012_41012684_41012684.jpg" alt="Male-Male Jumper Wires" width="100">|Male-Male Jumper Wires| 100| To connect components to the Pico|
@@ -59,7 +60,7 @@ These items can be purchased online at stores that sells electronic components, 
 
 ## Computer Setup
 ### IDE
-I developed this on a computer running windows 11. I decided to use Thonny for the microcontroller code because it is specifically designed for beginners in MicroPython programming, offering an intuitive interface, easy debugging tools for microcontroller projects. Installation instruction can be found on the [Thonny website](https://thonny.org/). For the server side code I used VS Code
+I developed this on a computer running windows 11. I decided to use Thonny for the microcontroller code because it is specifically designed for beginners in MicroPython programming, offering an intuitive interface, easy debugging tools for microcontroller projects. Installation instruction can be found on the [Thonny website](https://thonny.org/). For the server side code I used VS Code which you can download and install on the [Visual Studio Code website](https://code.visualstudio.com/download)
 
 ### Raspberry Pi Pico W setup
 To set up the pico first download the latest version of Raspberry Pi Pico W firmware [here](https://rpf.io/pico-w-firmware), once downloaded connect the pico to your computer while holding down the bootsel button. A file manager should open with the raspberry pi pico w as the connected device, copy the firmware file to the device and the file manager will close. Open the Thonny editor and on the navigation bar, select Tools > Options > Interpreter and choose the MicroPython interpreter for Raspberry Pi Pico.
@@ -72,7 +73,7 @@ To set up the pico first download the latest version of Raspberry Pi Pico W firm
 - Raspberry Pi Pico W - place the Pico over the center of the breadboard with the pins straddling the center divide. Connect the pico's GND to the (-) line on the right side of the breadboard and the 3V3 output to the (+) line on the on the right side of the breadboard. See the attached pico w pinout for guidance. 
 ![Alt text](assets/picow-pinout.png)
 
-- 9V Battery - Connect the battery's (-) to the (-) and the (+) to the (+) lines on the left side of the breadboard.
+- Power Supply module and 9V Battery - Connect the battery to the power supply module using the battery cord. Connect the power supply's GND pin to the left side (-) line and the 5V pin to the left side (+) line, turn on the power supply by pressing the power button.
 
 - Soil moisture sensors - For my set up, I used analog sensors so I was limited to 3 analog to digital converter (ADC) pins on the pico i.e. GP26, GP27 and GP28. This will be placed in the soil to measure the moisture content. Connect the sensor's vcc to the (+) line on the bread board, the GND to the (-) line on the breadboard and the analog output to one of the ADC pins. Since soil sensors are different you may have to calibrate them according to your environment. Follow these steps to calibrate them;
 
@@ -90,7 +91,10 @@ Calibrating the ultra sonic sensor is similar to the soil moisture sensors;
 
 
 ### Platform for Data Transimission
-For the project, I decided to send the sensor data via a json data file sent over HTTP. I set up a server on my laptop to listen for data transmitted by the pico inorder to process it. When the pico connects to the same network as the server, the sensor data is read and transmitted to the server as a POST request and stored as a variable. When the dashboard is requested for from a browser, the server servers the index.html file (styled with css) and JavaScript method requests for the data to be displayed. At this point, the data has been recieved by the server and stored in a variable so this information is sent. I decided to create a custom dashboard as I felt the available options were too restricting in how the data could be visualized and additionally I could style it to my preference.
+- For the project, I decided to send the sensor data via a json data file sent over HTTP. I set up a server on my laptop to listen for data transmitted by the pico inorder to process it. 
+- When the pico connects to the same network as the server, the sensor data is read and transmitted to the server as a POST request and stored as a variable. 
+- When the dashboard is requested for from a browser, the server servers the index.html file (styled with css) and JavaScript method requests for the data to be displayed. 
+- At this point, the data has been recieved by the server and stored in a variable so this information is sent. I decided to create a custom dashboard as I felt the available options were too restricting in how the data could be visualized and additionally I could style it to my preference.
 
 ### The Code
 #### Controller Code
@@ -106,6 +110,20 @@ This Python script sets up a system to manage sensor data through both an HTTP s
 
 The WebSocket server, created with the `websockets` library, manages real-time communication with clients. It handles incoming WebSocket connections and responds to requests for sensor data. A function `send_data_to_clients` is used to broadcast updated sensor data to all connected WebSocket clients. Both servers are run concurrently: the HTTP server in a separate thread and the WebSocket server in the main thread, allowing the system to handle HTTP requests and WebSocket communication simultaneously. This setup facilitates a dashboard webpage where clients can receive dynamic updates of sensor data in real-time.
 
+## Data Visualization
+The dasboard can be deívided into 3 main parts
+- The Reservoir. This shows the reservoirs approximate level after readings are taken and converted to a percentage.
+![Alt text](assets/reservoir_focus.png)
+
+- Plant section. Here the user can view all the plants currently being monitored, their name, current water level (which is updated every hour) and water needs
+![Alt text](assets/plant_focus.png)
+
+- Graph section. This further split into:
+  - Hourly section. This shows the plants current water level as the rservoir level and this is recorded every hour of the day.
+  ![Alt text](assets/hourly_graph_focuc.png)
+
+  - Weekly section. This shows that plants average water level for the last 24 hours
+  ![Alt text](assets/weekly_graph_focuc.png)
 
 ## Final look
 Over all, the roject turned out as I origianlly designed but throught out the process I realized I was limited to only 3 three ADC pins on the pico so if i wanted to add more plants I'd have to purchase an additional digital soils sensor. It was also quite difficult to calibrate the soil sensors as they were quite immprecise and had verry different ranges.
