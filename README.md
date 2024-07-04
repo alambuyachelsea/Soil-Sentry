@@ -40,7 +40,7 @@ These items can be purchased online at stores that sells electronic components, 
 |<img src="https://www.electrokit.com/cache/ba/700x700-product_41019_41019114_PICO-WH-HERO.jpg" alt="Raspberry Pi Pico W" width="100"> |Raspberry Pi Pico W| 89| Reads the sensor data and transmits it to the server|
 |<img src="https://m.media-amazon.com/images/I/61Qg8ZYbYnS._AC_SL1500_.jpg" alt="Soil Moisture Sensor" width="100"> |Capacitive Soil Moisture Sensor V2.0 *| 44| To measure the soil moisture level |
 |<img src="https://www.electrokit.com/upload/product/41018/41018791/41018791.jpg" alt="Submersible waterpump 3V" width="100"> |Submersible waterpump 3V *| 45| To pump the water from the reservoir to the plants|
-|<img src=" https://www.electrokit.com/upload/product/41015/41015704/41015704.jpg" alt="5V Relay Module" width="100">|5V Relay Module *| 60|Handles switching operations between the 3V pump and a separate 5V control signal|
+|<img src="https://www.electrokit.com/upload/product/41015/41015704/41015704.jpg" alt="5V Relay Module" width="100">|5V Relay Module *| 60|Handles switching operations between the 3V pump and a separate 5V control signal|
 |<img src="https://www.electrokit.com/cache/89/999x999-quick_ab_5b_0228_42338.png" alt="9V Battery" width="100">|9V Battery|60|Power Supply for the water  pumps|
 |<img src="https://m.media-amazon.com/images/I/61ZkfoqkAUL._AC_SL1000_.jpg" alt="Breadboard Power Supply Module" width="100">|Breadboard Power Supply Module|60|Power Supply to the breadboard for the water  pumps|
 |<img src="https://www.electrokit.com/upload/product/41013/41013207/41013207.jpg" alt="HC-SR04 Ultrasonic Range Sensor" width="100">|HC-SR04 Ultrasonic Range Sensor| 23| To measure the reservoir level|
