@@ -106,6 +106,15 @@ The WebSocket server, created with the `websockets` library, manages real-time c
 
 ### Final look
 Over all, the roject turned out as I origianlly designed but throught out the process I realized I was limited to only 3 three ADC pins on the pico so if i wanted to add more plants I'd have to purchase an additional digital soils sensor. It was also quite difficult to calibrate the soil sensors as they were quite immprecise and had verry different ranges.
+
+The final dashboard
 ![Alt text](assets/final_result.png)
+
+Plant window with multiple plants
+![Alt text](assets/multiple_plants.gif)
+
+Final Setup shot 1
 ![Alt text](assets/final_setup1.jpg)
+
+Final setup shot 2
 ![Alt text](assets/final_setup2.jpg)
