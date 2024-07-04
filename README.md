@@ -35,22 +35,25 @@ By monitoring the data, users can have a better idea of their plant needs, reduc
 
 ## Bill of Materials
 These items can be purchased online at stores that sells electronic components, single board computers, modules, sensors etc. Reliable options are [The pi hut](thepihut.com), [electrokit](electrokit.com), [amazon.se](amazon.se) and any non electronic components can be found at a hardware store.
-| Component|Price (SEK)|Purpose|
-|---|---|---|
-| Raspberry Pi Pico W| 89| Reads the sensor data and transmits it to the server|
-| Capacitive Soil Moisture Sensor *| 44| To measure the soil moisture level |
-| Submersible waterpump 3V *| 45| To pump the water from the reservoir to the plants|
-| 5V Relay Module *| 60| Handles switching operations between the 3V pump and a separate 5V control signal|
-| 9V Battery| 60| Power Supply for the water  pumps|
-| HC-SR04 Ultrasonic Range Sensor| 23| To measure the reservoir level|
-| Male/Male Jumper Wires & Female/Male Jumper Wires| 100| To connect components to the Pico|
-| Silicon Water Pipe| 45| To transport water to the plant|
-| 2 Core Electric Cable| 121| To extend the length of jumper wires|
-| Soldering Iron Kit| 500| To join 2 wires|
-| Soldering Wire| 100| To join 2 wires|
-| Desoldering Wick| 100| To erase the makes you made (with the soldering, not in real life)|
-| Electric Tape| 60| To seal soldered wires that will be placed in water|
-| Heat Shrink| 90| To seal soldered wires that will be placed in water|
+|Image|Component|Price (SEK)|Purpose|
+|---|---|---|-----|
+|<img src="https://www.electrokit.com/cache/ba/700x700-product_41019_41019114_PICO-WH-HERO.jpg" alt="Raspberry Pi Pico W" width="100"> |Raspberry Pi Pico W| 89| Reads the sensor data and transmits it to the server|
+|<img src="https://m.media-amazon.com/images/I/61Qg8ZYbYnS._AC_SL1500_.jpg" alt="Soil Moisture Sensor" width="100"> |Capacitive Soil Moisture Sensor V2.0 *| 44| To measure the soil moisture level |
+|<img src="https://www.electrokit.com/upload/product/41018/41018791/41018791.jpg" alt="Submersible waterpump 3V" width="100"> |Submersible waterpump 3V *| 45| To pump the water from the reservoir to the plants|
+|<img src=" https://www.electrokit.com/upload/product/41015/41015704/41015704.jpg" alt="5V Relay Module" width="100">|5V Relay Module *| 60|Handles switching operations between the 3V pump and a separate 5V control signal|
+|<img src="https://www.electrokit.com/cache/89/999x999-quick_ab_5b_0228_42338.png" alt="9V Battery" width="100">|9V Battery|60|Power Supply for the water  pumps|
+|<img src="https://m.media-amazon.com/images/I/61ZkfoqkAUL._AC_SL1000_.jpg" alt="Breadboard Power Supply Module" width="100">|Breadboard Power Supply Module|60|Power Supply to the breadboard for the water  pumps|
+|<img src="https://www.electrokit.com/upload/product/41013/41013207/41013207.jpg" alt="HC-SR04 Ultrasonic Range Sensor" width="100">|HC-SR04 Ultrasonic Range Sensor| 23| To measure the reservoir level|
+|<img src="https://www.electrokit.com/cache/24/999x999-product_41012_41012684_41012684.jpg" alt="Male-Male Jumper Wires" width="100">|Male-Male Jumper Wires| 100| To connect components to the Pico|
+|<img src="https://www.electrokit.com/cache/31/999x999-product_41015_41015694_41015694.jpg" alt="Female-Male Jumper Wires" width="100">|Female-Male Jumper Wires| 100| To connect components to the Pico|
+|<img src="https://www.electrokit.com/cache/0f/999x999-product_41015_41015695_41015695.jpg" alt="Female-Female Jumper Wires" width="100">|Female-Female Jumper Wires| 100| To connect components to the Pico|
+|<img src="https://m.media-amazon.com/images/I/51RZPVI3mBL._AC_SL1100_.jpg" alt="Silicon Water Pipe" width="100">|Silicon Water Pipe| 45| To transport water to the plant|
+|<img src="https://m.media-amazon.com/images/I/612wpGjKM5L._SL1000_.jpg" alt="2 Core Electric Cable" width="100">|2 Core Electric Cable| 121| To extend the length of jumper wires|
+|<img src="https://m.media-amazon.com/images/I/81TEOJ7+TyL._AC_SL1500_.jpg" alt="Soldering Iron Kit" width="100">|Soldering Iron Kit| 500| To join 2 wires|
+|<img src="https://m.media-amazon.com/images/I/81IEkK9hIYL._SL1500_.jpg" alt="Solder Wire" width="100">|Solder Wire| 100| To join 2 wires|
+|<img src="https://www.electrokit.com/cache/d4/999x999-product_41016_41016653_41016653.jpg" alt="Desoldering Wick" width="100">|Desoldering Wick| 100| To erase the makes you made (with the soldering, not in real life)|
+|<img src="https://m.media-amazon.com/images/I/61KnnzKDgpL._AC_SL1000_.jpg" alt="Electric Tape" width="100">|Electric Tape| 60| To seal soldered wires that will be placed in water|
+|<img src="https://www.electrokit.com/upload/product/41003/41003430/41003430.jpg" alt="Heat Shrink" width="100">|Heat Shrink| 90| To seal soldered wires that will be placed in water|
 
   * Get one per plant you intend to monitor
 
@@ -74,7 +77,7 @@ To set up the pico first download the latest version of Raspberry Pi Pico W firm
 - Soil moisture sensors - For my set up, I used analog sensors so I was limited to 3 analog to digital converter (ADC) pins on the pico i.e. GP26, GP27 and GP28. This will be placed in the soil to measure the moisture content. Connect the sensor's vcc to the (+) line on the bread board, the GND to the (-) line on the breadboard and the analog output to one of the ADC pins. Since soil sensors are different you may have to calibrate them according to your environment. Follow these steps to calibrate them;
 
   - Take readings in open air, very dry soil, dry soil, lightly watered soil, heavily watered soil and 100% water. 
-  - Take about 100 readings for each find the highest and lowest values
+  - Take about 100 readings for each  and find the highest and lowest values
   - Create a scale of 0 - 5 where 0 is open air and 5 is 100% water.
 
 - Ultra sonic sensor - This should rest on top of the water reservoir. For this project, I designed a 3D mount to set on top of the reservoir. Connect the sensor's GND to any (-)line on the breadboard and the vcc to any (+) line on the breadboard. Connect the trig pin to GPIO 0 and connect the echo pin to GPIO 1.
@@ -104,13 +107,14 @@ This Python script sets up a system to manage sensor data through both an HTTP s
 The WebSocket server, created with the `websockets` library, manages real-time communication with clients. It handles incoming WebSocket connections and responds to requests for sensor data. A function `send_data_to_clients` is used to broadcast updated sensor data to all connected WebSocket clients. Both servers are run concurrently: the HTTP server in a separate thread and the WebSocket server in the main thread, allowing the system to handle HTTP requests and WebSocket communication simultaneously. This setup facilitates a dashboard webpage where clients can receive dynamic updates of sensor data in real-time.
 
 
-### Final look
+## Final look
 Over all, the roject turned out as I origianlly designed but throught out the process I realized I was limited to only 3 three ADC pins on the pico so if i wanted to add more plants I'd have to purchase an additional digital soils sensor. It was also quite difficult to calibrate the soil sensors as they were quite immprecise and had verry different ranges.
 
 The final dashboard
 ![Alt text](assets/final_result.png)
 
 Plant window with multiple plants
+
 ![Alt text](assets/multiple_plants.gif)
 
 Final Setup shot 1
@@ -118,3 +122,6 @@ Final Setup shot 1
 
 Final setup shot 2
 ![Alt text](assets/final_setup2.jpg)
+
+## Youtube Video 
+Check out [this](https://youtu.be/vv5wq6jMT6I) youtube video to see the dashboard in action.
