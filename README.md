@@ -24,7 +24,9 @@ By Alambuya Chelsea CA223SF
 The soil sentry is a small scale irrigation system which allows a user to connect multiple plants with various water consumption needs, monitor their water levels and supply water them when needed in addition to monitoring the water reservoir levels. 
 
 ## Estimated Time
-- Is the amount of time for the project estimated??? meaning what
+- Setting up the whole project with the IDE and getting everything connected takes about 5 hours with 2 hours of active setup and about 3 hours for designing a 3D printing the reservoir mount where ultrasonic sensor will rest. The container I chose for the reservoir was relatively small so this the printing did not take much time, see the picture below
+![Alt text](assets/sensor_mount.jpg)
+
 
 ## Project Objective
 Many at home watering solutins exist but are limited to just soil moisture levels and water supply. These solutions are sufficient for plants that have the same water consumption needs but to an owner of various plant types like succulents, herbs and flowering plants this can lead to over or under watering plants by trying to calibrate a single water supply to them.
