@@ -18,7 +18,7 @@
 
 
 ## Author
-By Alambuya Chelsea CA223SF
+By Alambuya Chelsea
 
 ## Project Overview
 The soil sentry is a small scale irrigation system which allows a user to connect multiple plants with various water consumption needs, monitor their water levels and supply water them when needed in addition to monitoring the water reservoir levels. 
